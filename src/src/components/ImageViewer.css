@@ -1,0 +1,122 @@
+.image-viewer {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+}
+
+/* ============ Toolbar ============ */
+
+.viewer-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 0.75rem;
+  background: #262626;
+  border-bottom: 1px solid #333;
+  flex-wrap: wrap;
+  flex-shrink: 0;
+}
+
+.viewer-toolbar button {
+  background: #333;
+  color: #fff;
+  border: 1px solid #444;
+  min-width: 2rem;
+  height: 1.9rem;
+  padding: 0 0.55rem;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s;
+}
+
+.viewer-toolbar button:hover:not(:disabled) {
+  background: #444;
+}
+
+.viewer-toolbar button.active {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-color: #8b7bd8;
+}
+
+.zoom-level,
+.page-indicator {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.6);
+  min-width: 3.2rem;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+.viewer-hint {
+  margin-left: auto;
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.toolbar-separator {
+  width: 1px;
+  height: 1.2rem;
+  background: #444;
+  margin: 0 0.25rem;
+}
+
+/* ============ Canvas ============ */
+
+.viewer-canvas {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  position: relative;
+  background-color: #141414;
+  /* Cuadrícula sutil: ayuda aUbicar puntos sobre el esquemático. */
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.image-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  /* `translate(-50%,-50%)` centra la imagen; el pan se aplica sobre el
+     wrapper para que las coordenadas de las anotaciones no se desplacen. */
+  transform-origin: center center;
+  user-select: none;
+}
+
+.image-container img {
+  display: block;
+  max-width: none;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
+  image-rendering: -webkit-optimize-contrast;
+}
+
+/* ============ Errores ============ */
+
+.viewer-error {
+  padding: 2rem;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.viewer-error h3 {
+  color: #ff6b6b;
+  margin: 0 0 0.5rem 0;
+  font-size: 1rem;
+}
+
+.viewer-error code {
+  display: block;
+  margin-top: 0.75rem;
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.35);
+  word-break: break-all;
+}
+

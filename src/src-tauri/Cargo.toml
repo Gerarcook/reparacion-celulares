@@ -1,0 +1,31 @@
+[package]
+name = "volfix"
+version = "0.1.0"
+description = "Diagnóstico en tiempo real para reparación de dispositivos móviles"
+authors = ["GS-Smartfix"]
+edition = "2021"
+
+[lib]
+name = "volfix_lib"
+crate-type = ["staticlib", "cdylib", "lib"]
+
+[build-dependencies]
+tauri-build = { version = "2.0", features = [] }
+
+[dependencies]
+# `protocol-asset` habilita el esquema asset:// que usa `convertFileSrc` para
+# mostrar los esquemáticos que el técnico abre desde el disco.
+tauri = { version = "2.0", features = ["protocol-asset"] }
+tauri-plugin-shell = "2.0"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+tokio = { version = "1.38", features = ["full", "macros", "rt-multi-thread"] }
+tokio-serial = "5.5"
+serialport = "4"
+async-trait = "0.1"
+log = "0.4"
+env_logger = "0.11"
+
+[target."cfg(not(any(target_os = \"android\", target_os = \"ios\")))".dependencies]
+tauri-plugin-dialog = "2.0"
+tauri-plugin-fs = "2.0"

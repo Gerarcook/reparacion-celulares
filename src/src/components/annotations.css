@@ -1,0 +1,180 @@
+/* Estilos compartidos por los dos visores.
+ *
+ * Los puntos de prueba se dibujan igual sobre una imagen y sobre una página de
+ * PDF, así que su presentación vive acá. Antes estaba todo en `ImageViewer.css`,
+ * y `PDFViewer` heredaba los estilos por el orden de importación del bundle:
+ * funcionaba mientras `ImageViewer` se importara antes, y se rompía en cuanto
+ * el visor de PDF se cargara por sí solo. */
+
+.annotation-point {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  margin: -7px 0 0 -7px;
+  border: 2px solid #ff6b6b;
+  border-radius: 50%;
+  background: rgba(255, 107, 107, 0.25);
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.annotation-point:hover {
+  transform: scale(1.35);
+  box-shadow: 0 0 12px currentColor;
+}
+
+.annotation-point.selected {
+  transform: scale(1.5);
+  box-shadow: 0 0 16px currentColor;
+}
+
+.annotation-point.out-of-range {
+  animation: pulse-out 1.4s ease-in-out infinite;
+}
+
+/* Punto al que llega la lectura viva del multímetro. */
+.annotation-point.live {
+  border-width: 3px;
+  background: rgba(126, 231, 135, 0.35);
+  box-shadow: 0 0 14px rgba(126, 231, 135, 0.9);
+}
+
+/* Un punto fuera de rango con lectura viva no puede depender solo de la
+   animación: si el técnico lo mira de reojo, el color tiene que distinguirlo
+   sin importar el movimiento. */
+.annotation-point.live.out-of-range {
+  background: rgba(255, 71, 87, 0.4);
+  box-shadow: 0 0 14px rgba(255, 71, 87, 0.9);
+}
+
+@keyframes pulse-out {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(255, 71, 87, 0.7);
+  }
+  50% {
+    box-shadow: 0 0 0 7px rgba(255, 71, 87, 0);
+  }
+}
+
+.annotation-label {
+  position: absolute;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.68rem;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.75);
+  padding: 1px 5px;
+  border-radius: 3px;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.annotation-reading {
+  position: absolute;
+  top: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #7ee787;
+  background: rgba(0, 0, 0, 0.85);
+  padding: 1px 5px;
+  border-radius: 3px;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+  pointer-events: none;
+}
+
+.annotation-reading,
+.annotation-label {
+  /* En el PDF el overlay se escala al revés para compensar el zoom de la
+     página. Sin esto las etiquetas quedarían con tamaño 1/scale. */
+  transform-origin: top left;
+}
+
+/* ============ Lista lateral ============ */
+
+.annotations-panel {
+  background: #262626;
+  border-top: 1px solid #333;
+  padding: 0.6rem 0.75rem;
+  max-height: 14rem;
+  overflow-y: auto;
+  flex-shrink: 0;
+}
+
+.annotations-panel h4 {
+  margin: 0 0 0.4rem 0;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.annotations-panel ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.annotations-panel li {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.2rem 0.35rem;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.annotations-panel li:hover,
+.annotations-panel li.selected {
+  background: #333;
+}
+
+.annotation-select {
+  flex: 1;
+  background: none;
+  border: none;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.annotation-range {
+  font-size: 0.72rem;
+  color: #7ee787;
+  font-variant-numeric: tabular-nums;
+}
+
+.annotation-range.none {
+  color: rgba(255, 255, 255, 0.3);
+  font-style: italic;
+}
+
+.annotation-range.out-of-range {
+  color: #ff4757;
+  font-weight: 600;
+}
+
+.annotations-panel li > button:last-child {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.3);
+  cursor: pointer;
+  font-size: 1rem;
+  line-height: 1;
+  padding: 0 0.3rem;
+}
+
+.annotations-panel li > button:last-child:hover {
+  color: #ff6b6b;
+}
+
+.annotations-hint {
+  margin: 0.4rem 0 0 0;
+  font-size: 0.68rem;
+  color: rgba(255, 255, 255, 0.3);
+}

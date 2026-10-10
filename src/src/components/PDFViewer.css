@@ -1,0 +1,89 @@
+.pdf-viewer {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+}
+
+.pdf-canvas {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  background-color: #141414;
+  padding: 1rem;
+}
+
+.pdf-page-wrap {
+  /* `transform` en vez de width para que la sombra y el fondo escalen con la
+     página sin recalcular el layout en cada zoom. */
+  transform-origin: top center;
+  /* Ancla del overlay de puntos: sin esto los `left`/`top` en coordenadas de
+     página se medirían contra el canvas y no contra la página. */
+  position: relative;
+  display: inline-block;
+}
+
+/* Capa transparente que superpone los puntos sobre la página renderizada.
+   El `scale(1/scale)` inverso la deja en coordenadas de página, así que los
+   puntos se guardan una sola vez y el zoom no los descoloca. */
+.pdf-annotations-overlay {
+  position: absolute;
+  inset: 0;
+  transform-origin: top left;
+  pointer-events: none;
+}
+
+/* Los puntos sí reciben clics: el overlay no. */
+.pdf-annotations-overlay .annotation-point {
+  pointer-events: auto;
+}
+
+.pdf-loading {
+  color: rgba(255, 255, 255, 0.5);
+  padding: 2rem;
+  font-size: 0.9rem;
+}
+
+.pdf-canvas canvas {
+  display: block;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
+  border-radius: 2px;
+}
+
+/* react-pdf inyecta sus capas de texto y anotaciones con position:absolute;
+   hay que contenerlas para que no expandan el área de scroll. */
+.pdf-page-wrap .react-pdf__Page__textContent,
+.pdf-page-wrap .react-pdf__Page__annotations {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  opacity: 0;
+}
+
+/* La capa de texto se usa para buscar y copiar etiquetas del esquemático, así
+   que no puede quedar transparente. */
+.pdf-viewer .react-pdf__Page__textContent {
+  opacity: 1;
+  user-select: text;
+}
+
+.react-pdf__Page__textContent span::selection {
+  background: rgba(102, 126, 234, 0.5);
+}
+
+/* ============ Puntos de prueba ============ */
+
+.pdf-viewer .annotations-panel {
+  border-top: 1px solid #333;
+}
+
+@media print {
+  .viewer-toolbar,
+  .annotations-panel {
+    display: none;
+  }
+}

@@ -72,7 +72,31 @@ Primeras ventas reales y feedback de técnicos externos al proyecto.
 
 ## Estado actual
 
-Etapa 1 — En progreso. Fase de diseño y arquitectura.
+**Etapa 1 — Completa.** Visor de PDF e imágenes con zoom, pan, puntos de prueba
+persistentes y exportación de historial.
+
+**Etapa 2 — En progreso.** Los tres drivers (Uni-T, ANENG, SCPI) están
+implementados y cubiertos con tests de parsing. La comunicación USB funciona;
+falta lo siguiente:
+
+- Validar los protocolos contra hardware real. Los parsers están escritos a
+  partir de documentación pública y necesitan contraste con lecturas físicas.
+- Conectores de carga de celulares y puntas de tester. No empezado.
+
+Lo que ya está resuelto en esta etapa:
+
+- Puntos de prueba dibujados sobre el PDF, con overlay que se descala solo para
+  no descolocarse al hacer zoom
+- Lectura en vivo atribuida al punto que el técnico está mirando, no repetida
+  en todos los puntos
+- Formulario de rango esperado por punto, con validación de rango invertido y
+  propuesta de rango a partir de la lectura actual
+- Casos de diagnóstico persistidos por esquemático, con archivado del historial
+  de mediciones
+
+**Etapa 3 — No empezada.**
+
+**Etapa 4 — No empezada.**
 
 ## Proyecto
 

@@ -1,0 +1,442 @@
+.measurement-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 380px;
+  max-width: 92vw;
+  background: #212121;
+  border-left: 1px solid #3a3a3a;
+  box-shadow: -6px 0 24px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  z-index: 100;
+  color: #e0e0e0;
+}
+
+.panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.85rem 1rem;
+  border-bottom: 1px solid #3a3a3a;
+  background: #2a2a2a;
+  flex-shrink: 0;
+}
+
+.panel-header h3 {
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+.btn-close {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 1.4rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0 0.25rem;
+}
+
+.btn-close:hover {
+  color: #ff6b6b;
+}
+
+.error-banner {
+  background: #4a2020;
+  color: #ff9e9e;
+  padding: 0.6rem 1rem;
+  font-size: 0.8rem;
+  cursor: pointer;
+  border-bottom: 1px solid #6b2f2f;
+}
+
+.panel-section {
+  padding: 0.85rem 1rem;
+  border-bottom: 1px solid #333;
+}
+
+.panel-section.connected {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  border-bottom: none;
+}
+
+.panel-section h4 {
+  margin: 0;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.6rem;
+}
+
+.btn-refresh {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 0.15rem 0.35rem;
+}
+
+.btn-refresh:hover {
+  color: #fff;
+}
+
+.empty-state {
+  color: rgba(255, 255, 255, 0.35);
+  font-size: 0.8rem;
+  font-style: italic;
+  text-align: center;
+  padding: 0.75rem 0;
+  margin: 0;
+}
+
+/* ============ Dispositivos ============ */
+
+.device-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.device-item {
+  background: #2c2c2c;
+  border: 1px solid #3a3a3a;
+  border-radius: 6px;
+  padding: 0.6rem 0.7rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.device-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.device-port {
+  font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #fff;
+}
+
+.device-driver {
+  font-size: 0.65rem;
+  padding: 0.1rem 0.4rem;
+  border-radius: 3px;
+  background: #444;
+  color: #ccc;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.driver-unit_ut {
+  background: #1e4a2e;
+  color: #7ee787;
+}
+
+.driver-aneng {
+  background: #4a3a1e;
+  color: #ffd479;
+}
+
+.driver-scpi {
+  background: #1e3a4a;
+  color: #79c0ff;
+}
+
+.driver-unknown {
+  background: #4a1e1e;
+  color: #ff9e9e;
+}
+
+.device-details {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.btn-connect,
+.btn-disconnect,
+.btn-single {
+  background: #3a3a3a;
+  color: #fff;
+  border: 1px solid #4a4a4a;
+  border-radius: 5px;
+  padding: 0.35rem 0.7rem;
+  font-size: 0.78rem;
+  cursor: pointer;
+  align-self: flex-start;
+  transition: background 0.15s;
+}
+
+.btn-connect:hover:not(:disabled),
+.btn-single:hover:not(:disabled) {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-color: #8b7bd8;
+}
+
+.btn-disconnect {
+  background: #5a2a2a;
+  border-color: #7a3a3a;
+  color: #ffb3b3;
+}
+
+.btn-disconnect:hover {
+  background: #7a3a3a;
+}
+
+.manual-driver {
+  display: flex;
+  gap: 0.4rem;
+  align-items: center;
+}
+
+.manual-driver select {
+  flex: 1;
+  background: #333;
+  color: #fff;
+  border: 1px solid #4a4a4a;
+  border-radius: 5px;
+  padding: 0.3rem;
+  font-size: 0.78rem;
+}
+
+/* ============ Controles ============ */
+
+.mode-selector {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.mode-selector label {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.mode-selector select {
+  flex: 1;
+  background: #333;
+  color: #fff;
+  border: 1px solid #4a4a4a;
+  border-radius: 5px;
+  padding: 0.4rem;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.hint {
+  margin: 0;
+  font-size: 0.72rem;
+  color: #ffd479;
+  background: #3a3320;
+  padding: 0.4rem 0.5rem;
+  border-radius: 4px;
+  border-left: 2px solid #ffd479;
+}
+
+.measurement-controls {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.btn-measure {
+  flex: 1;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 0.55rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: filter 0.15s;
+}
+
+.btn-measure:hover:not(:disabled) {
+  filter: brightness(1.15);
+}
+
+.btn-measure.measuring {
+  background: linear-gradient(135deg, #c0392b 0%, #e74c3c 100%);
+  animation: measure-pulse 1.6s ease-in-out infinite;
+}
+
+@keyframes measure-pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(231, 76, 60, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 0 6px rgba(231, 76, 60, 0);
+  }
+}
+
+/* ============ Lectura ============ */
+
+.current-reading {
+  background: #161616;
+  border: 1px solid #2e2e2e;
+  border-radius: 8px;
+  padding: 1rem;
+  text-align: center;
+  position: relative;
+}
+
+.reading-value {
+  font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+  font-size: 2.1rem;
+  font-weight: 700;
+  color: #7ee787;
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+}
+
+.reading-unit {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.6);
+  margin-top: 0.15rem;
+}
+
+.reading-mode {
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.35);
+  margin-top: 0.4rem;
+}
+
+.reading-placeholder {
+  color: rgba(255, 255, 255, 0.3);
+  font-size: 0.85rem;
+  padding: 1rem 0;
+}
+
+.badge {
+  position: absolute;
+  top: 0.5rem;
+  font-size: 0.6rem;
+  padding: 0.1rem 0.35rem;
+  border-radius: 3px;
+  font-weight: 700;
+}
+
+.badge.relative {
+  right: 0.5rem;
+  background: #1e4a2e;
+  color: #7ee787;
+}
+
+.badge.overflow {
+  left: 0.5rem;
+  background: #4a1e1e;
+  color: #ff9e9e;
+}
+
+/* ============ Historial ============ */
+
+.history-section {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  flex: 1;
+}
+
+.history-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.4rem;
+}
+
+.history-actions {
+  display: flex;
+  gap: 0.3rem;
+}
+
+.btn-small {
+  background: #333;
+  color: #ccc;
+  border: 1px solid #444;
+  border-radius: 4px;
+  padding: 0.2rem 0.45rem;
+  font-size: 0.7rem;
+  cursor: pointer;
+}
+
+.btn-small:hover:not(:disabled) {
+  background: #444;
+  color: #fff;
+}
+
+.history-list {
+  flex: 1;
+  min-height: 4rem;
+  overflow-y: auto;
+  background: #1a1a1a;
+  border-radius: 5px;
+  border: 1px solid #2e2e2e;
+}
+
+.history-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.74rem;
+  border-bottom: 1px solid #262626;
+}
+
+.history-item:hover {
+  background: #262626;
+}
+
+.history-time {
+  color: rgba(255, 255, 255, 0.35);
+  font-family: ui-monospace, Consolas, monospace;
+  font-size: 0.7rem;
+}
+
+.history-value {
+  flex: 1;
+  color: #7ee787;
+  font-family: ui-monospace, Consolas, monospace;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+.history-mode {
+  color: rgba(255, 255, 255, 0.4);
+  width: 1.2rem;
+  text-align: center;
+}
+
+.history-item .badge {
+  position: static;
+}
+
+@media (max-width: 520px) {
+  .measurement-panel {
+    width: 100%;
+  }
+}

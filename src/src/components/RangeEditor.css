@@ -1,0 +1,80 @@
+.range-editor {
+  border-top: 1px solid var(--border, #2a2a35);
+  padding: 12px 14px;
+  background: var(--panel-bg, #16161d);
+}
+
+.range-editor-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.range-editor-header h4 {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.range-editor-current {
+  font-family: var(--mono, ui-monospace, monospace);
+  font-size: 11px;
+  color: var(--text-muted, #8a8a99);
+}
+
+.range-editor-fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr 0.8fr;
+  gap: 8px;
+}
+
+.range-editor-fields label {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.range-editor-fields label span {
+  font-size: 11px;
+  color: var(--text-muted, #8a8a99);
+}
+
+.range-editor-fields input {
+  background: var(--input-bg, #0e0e13);
+  border: 1px solid var(--border, #2a2a35);
+  border-radius: 4px;
+  color: var(--text, #e8e8ef);
+  padding: 6px 8px;
+  font-size: 12px;
+  font-family: var(--mono, ui-monospace, monospace);
+  min-width: 0;
+}
+
+.range-editor-fields input:focus {
+  outline: none;
+  border-color: var(--accent, #4d9fff);
+}
+
+.range-editor-fields input.invalid {
+  border-color: #ff4757;
+}
+
+.range-editor-fields input::-webkit-outer-spin-button,
+.range-editor-fields input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.range-editor-error {
+  margin: 8px 0 0;
+  font-size: 11px;
+  color: #ff6b6b;
+}
+
+.range-editor-actions {
+  display: flex;
+  gap: 6px;
+  margin-top: 10px;
+}

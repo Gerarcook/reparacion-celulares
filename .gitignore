@@ -1,0 +1,41 @@
+# Este archivo cubre el repo entero. `src/.gitignore` solo alcanzaba a `src/`,
+# así que cualquier build o dependencia generada fuera de ahí entraba al repo.
+
+# Dependencias
+node_modules/
+
+# Builds
+dist/
+dist-ssr/
+*.local
+
+# Rust / Tauri
+target/
+src-tauri/gen/android/
+src-tauri/gen/apple/
+src-tauri/gen/linux/
+
+# El worker de pdf.js se copia al bundle en cada build.
+src/public/pdf.worker.min.mjs
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+
+# Editores
+.vscode/*
+!.vscode/extensions.json
+.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?

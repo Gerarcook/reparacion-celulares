@@ -1,0 +1,316 @@
+.app-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+}
+
+/* ============ Header ============ */
+
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 0.9rem 1.5rem;
+  color: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+  flex-shrink: 0;
+}
+
+.app-header h1 {
+  margin: 0;
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+.app-header p {
+  margin: 0.15rem 0 0 0;
+  opacity: 0.85;
+  font-size: 0.8rem;
+}
+
+.btn-ghost {
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 0.4rem 0.9rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
+.btn-ghost:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+/* ============ Notices ============ */
+
+.app-notice {
+  background: #3a3320;
+  color: #ffd479;
+  padding: 0.6rem 1.5rem;
+  font-size: 0.85rem;
+  cursor: pointer;
+  border-bottom: 1px solid #5a4d2a;
+  flex-shrink: 0;
+}
+
+/* ============ Layout ============ */
+
+.app-main {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  background: #1a1a1a;
+}
+
+.home-view {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  overflow-y: auto;
+}
+
+/* ============ Home ============ */
+
+.welcome-card {
+  background: #2a2a2a;
+  border-radius: 12px;
+  padding: 2.5rem;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.welcome-card h2 {
+  margin: 0 0 0.5rem 0;
+  color: #fff;
+}
+
+.welcome-card p {
+  margin: 0 0 1.5rem 0;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.welcome-hint {
+  margin: 1rem 0 0 0 !important;
+  font-size: 0.8rem;
+  opacity: 0.6;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  padding: 0.8rem 1.8rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.btn-primary:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+.recent-cases {
+  background: #2a2a2a;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.recent-cases h3 {
+  margin: 0;
+  color: #fff;
+  font-size: 1rem;
+}
+
+.placeholder {
+  color: rgba(255, 255, 255, 0.45);
+  font-style: italic;
+  text-align: center;
+  padding: 1.5rem;
+}
+
+/* ============ Schematic list ============ */
+
+.schematic-list {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.schematic-item {
+  display: flex;
+  align-items: stretch;
+  gap: 0.5rem;
+}
+
+.schematic-open {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  background: #333;
+  border: none;
+  border-radius: 8px;
+  padding: 0.85rem 1rem;
+  cursor: pointer;
+  text-align: left;
+  color: inherit;
+  transition: background 0.15s, transform 0.15s;
+}
+
+.schematic-open:hover {
+  background: #3d3d3d;
+  transform: translateX(2px);
+}
+
+.schematic-icon {
+  font-size: 1.5rem;
+}
+
+.schematic-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  min-width: 0;
+}
+
+.schematic-info strong {
+  color: #fff;
+  font-size: 0.9rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.schematic-info small {
+  color: rgba(255, 255, 255, 0.45);
+  font-size: 0.75rem;
+}
+
+.schematic-remove {
+  background: #333;
+  border: none;
+  border-radius: 8px;
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 1.1rem;
+  cursor: pointer;
+  padding: 0 0.85rem;
+  transition: all 0.15s;
+}
+
+.schematic-remove:hover {
+  background: #5a2a2a;
+  color: #ff6b6b;
+}
+
+/* ============ Viewer ============ */
+
+.viewer-view {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  padding: 1rem 1.5rem 1.5rem;
+}
+
+.viewer-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid #333;
+  flex-shrink: 0;
+}
+
+.viewer-header h3 {
+  margin: 0;
+  flex: 1;
+  color: #fff;
+  font-size: 1rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.viewer-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.schematic-path {
+  font-size: 0.7rem;
+  background: #333;
+  color: rgba(255, 255, 255, 0.5);
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+}
+
+.btn-back,
+.btn-measurements {
+  background: #333;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  font-size: 0.85rem;
+  border-radius: 6px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s, transform 0.15s;
+}
+
+.btn-back:hover,
+.btn-measurements:hover {
+  background: #444;
+  transform: translateY(-1px);
+}
+
+.btn-measurements {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.viewer-content {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  overflow: hidden;
+  background: #1a1a1a;
+  border-radius: 8px;
+  margin-top: 0.75rem;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+@media (max-width: 720px) {
+  .viewer-view {
+    padding: 0.75rem;
+  }
+
+  .app-header p {
+    display: none;
+  }
+
+  .schematic-path {
+    display: none;
+  }
+}
