@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
 import type { Annotation } from "../types";
 import { describeRange, formatReading, isOutOfRange } from "../utils/annotations";
+import { toOverlayPosition, toPageCoordinate } from "../utils/pdfCoordinates";
 import { RangeEditor } from "./RangeEditor";
 import "./annotations.css";
 import "./PDFViewer.css";
@@ -116,11 +117,12 @@ export function PDFViewer({
       const label = window.prompt("Etiqueta del punto de prueba:");
       if (!label?.trim()) return;
 
-      // El canvas de pdf.js ya viene escalado por `scale`, así que dividir por
-      // la escala devuelve las coordenadas de la página sin el zoom aplicado.
+      // El rect del wrapper viene en píxeles escalados, así que dividir por `scale`
+      // devuelve las coordenadas de la página, que es como se guardan los
+      // puntos. Ojo: el render hace la operación inversa, porque el overlay ya
+      // mide en unidades escaladas.
       const rect = e.currentTarget.getBoundingClientRect();
-      const x = (e.clientX - rect.left) / scale;
-      const y = (e.clientY - rect.top) / scale;
+      const { x, y } = toPageCoordinate(e.clientX - rect.left, e.clientY - rect.top, scale);
       const id = crypto.randomUUID();
 
       onAddAnnotation({
@@ -207,15 +209,11 @@ export function PDFViewer({
 
               {/*
                 Los puntos se guardan en coordenadas de página sin zoom, pero
-                el canvas de pdf.js ya viene escalado. En vez de multiplicar
-                cada coordenada por `scale` —que obliga a rehacer el cálculo en
-                cada zoom— el overlay entero se escala al revés: queda en
-                unidades de página y CSS hace la transformación.
+                el canvas de pdf.js ya viene escalado. El overlay ocupa la
+                página renderizada, así que sus coordenadas están en unidades
+                escaladas: hay que multiplicar por `scale`, no dividir.
               */}
-              <div
-                className="pdf-annotations-overlay"
-                style={{ transform: `scale(${1 / scale})` }}
-              >
+              <div className="pdf-annotations-overlay">
                 {pageAnnotations.map((annotation) => {
                   const isLiveTarget = annotation.id === liveAnnotationId;
                   const value = isLiveTarget
@@ -230,13 +228,19 @@ export function PDFViewer({
                     !overflow &&
                     isOutOfRange(annotation, value);
 
+                  const position = toOverlayPosition(
+                    annotation.point.x,
+                    annotation.point.y,
+                    scale
+                  );
+
                   return (
                     <div
                       key={annotation.id}
                       className={`annotation-point ${annotation.id === selectedId ? "selected" : ""} ${outOfRange ? "out-of-range" : ""} ${isLiveTarget ? "live" : ""}`}
                       style={{
-                        left: annotation.point.x,
-                        top: annotation.point.y,
+                        left: position.x,
+                        top: position.y,
                         borderColor: outOfRange ? "#ff4757" : annotation.color,
                       }}
                       onClick={(e) => {

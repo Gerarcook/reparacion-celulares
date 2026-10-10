@@ -52,9 +52,10 @@ npm run tauri dev
 ## Verificación
 
 ```bash
-# Frontend: tipos y build
+# Frontend: tipos, tests y build
 cd src
 npx tsc --noEmit
+npm test
 npm run build
 
 # Backend: tests y análisis estático
@@ -72,6 +73,7 @@ src/
     hooks/                Estado: esquemáticos, anotaciones, mediciones, casos
     types/                Tipos compartidos con el backend
     utils/annotations.ts   Formato y comparación de rangos, compartido por ambos visores
+    utils/pdfCoordinates.ts Traducción entre coordenadas de página y de pantalla
     utils/tauri.ts        Puente hacia los comandos Rust
   src-tauri/
     src/usb/

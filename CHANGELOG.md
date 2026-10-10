@@ -5,18 +5,27 @@
 ### Agregado
 - Los puntos de prueba ahora se dibujan sobre el PDF. Antes se guardaban pero
   no se renderizaban: el visor de PDF no mostraba ni un punto, y `pageAnnotations`
-  solo se usaba para contar. El overlay se escala en `1/scale` para compensar el
-  zoom de la página y no descolocarse
+  solo se usaba para contar. El overlay sigue el zoom de la página
 - Formulario de rango esperado por punto, que era la pieza que faltaba:
   `Annotation.expected` ya lo leían los visores pero nada lo escribía, y
   `updateAnnotation` estaba implementado sin usarse. Valida rango invertido y
   propone el rango de la lectura actual ±5%
 - Casos de diagnóstico persistidos por esquemático (`useCases`), con estado
   y archivado del historial de mediciones. El tipo `Case` existía sin uso
-- `.gitignore` en la raíz. El CHANGELOG anterior afirmaba que existía; solo
-  estaba `src/.gitignore`, que no alcanzaba fuera de `src/`
+- Tests del frontend con `vitest` (`npm test`): 20 casos sobre la lógica de rango
+  y la matemática del overlay de PDF. La lógica de rango decide si el técnico ve
+  rojo o verde, y el overlay ya tuvo un error de escala que ningún typecheck
+  detectaba
 
 ### Corregido
+- `.gitignore` en la raíz. El CHANGELOG anterior afirmaba que existía; solo
+  estaba `src/.gitignore`, que no alcanzaba fuera de `src/`
+- El overlay de puntos del PDF aplicaba una compensación de zoom de más: el
+  canvas de pdf.js ya viene escalado por `scale`, y encima el overlay dividía
+  otra vez. Los puntos caían a `página / scale²` de su lugar — invisible a
+  escala 1 y 16x desviado a escala 4. Ahora las dos conversiones viven en
+  `utils/pdfCoordinates.ts`, que es el único lugar donde se traduce entre
+  coordenadas de página y de pantalla
 - La lectura viva se pintaba sobre todos los puntos a la vez, así que con
   cinco puntos marcados el técnico veía el mismo voltaje repetido. Ahora se
   atribuye al punto seleccionado o al último marcado
@@ -35,7 +44,7 @@
 ### Pendiente
 - Validar los protocolos contra hardware real
 - Conectores de carga de celulares y puntas de tester
-- Tests del frontend: no hay runner configurado
+- Validar los drivers contra hardware real
 
 ## [0.2.0]
 

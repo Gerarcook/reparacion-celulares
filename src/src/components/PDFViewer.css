@@ -28,12 +28,11 @@
 }
 
 /* Capa transparente que superpone los puntos sobre la página renderizada.
-   El `scale(1/scale)` inverso la deja en coordenadas de página, así que los
-   puntos se guardan una sola vez y el zoom no los descoloca. */
+   El canvas de pdf.js mide `página × scale`, así que el overlay también: cada
+   punto se posiciona multiplicando sus coordenadas de página por `scale`. */
 .pdf-annotations-overlay {
   position: absolute;
   inset: 0;
-  transform-origin: top left;
   pointer-events: none;
 }
 
