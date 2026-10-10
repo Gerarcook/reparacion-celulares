@@ -39,3 +39,10 @@ Thumbs.db
 *.njsproj
 *.sln
 *.sw?
+
+# Esquemáticos de servicio de terceros (Samsung service guide).
+#
+# Son material con derechos de autor de Samsung, no del proyecto, y el repo
+# de GitHub es público. Los archivos siguen en el disco para probar el visor;
+# lo que no va es el repo.
+docs/schematics/
