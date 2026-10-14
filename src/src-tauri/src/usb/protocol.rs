@@ -199,13 +199,10 @@ impl SerialLink {
         let task = tokio::spawn(async move {
             let mut reader = reader;
             let mut stop_rx = stop_rx;
-            // `interval` dispara el primer tick al instante; ese primer tick se
-            // descarta para no interrogar al instrumento antes de que el técnico
-            // haya visto la conexión.
+            // `interval` dispara el primer tick al instante; ese tick se descarta
+            // para no interrogar al instrumento antes de que el técnico haya
+            // visto la conexión.
             let mut ticker = tokio::time::interval(interval);
-            // La primera versión del ticker dispara de inmediato; se descarta
-            // para no leer antes de que el técnico haya tenido tiempo de ver
-            // la conexión.
             ticker.tick().await;
 
             loop {
@@ -223,7 +220,8 @@ impl SerialLink {
                 }
 
                 let mut line = String::new();
-                match tokio::io::AsyncBufReadExt::read_line(&mut reader, &mut line).await {
+                match reader.read_line(&mut line).await {
+                    // 0 bytes = el instrumento cerró el puerto.
                     Ok(0) => break,
                     Ok(_) => {
                         if let Some(m) = parser(line.trim()) {

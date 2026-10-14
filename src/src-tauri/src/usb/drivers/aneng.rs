@@ -184,7 +184,7 @@ impl MultimeterDriver for AnengDriver {
         
         link.start_continuous(
             FRAME_LEN_14,
-            boxed_parser(|frame| Self::parse_aneng(frame)),
+            boxed_parser(Self::parse_aneng),
             task_tx,
         );
         
@@ -210,7 +210,7 @@ impl MultimeterDriver for AnengDriver {
     
     async fn read_single(&mut self) -> Result<Measurement, String> {
         let link = self.link.as_mut().ok_or("No conectado")?;
-        let parser = boxed_parser(|frame| Self::parse_aneng(frame));
+        let parser = boxed_parser(Self::parse_aneng);
         link.read_frame(FRAME_LEN_14, &parser).await
     }
     

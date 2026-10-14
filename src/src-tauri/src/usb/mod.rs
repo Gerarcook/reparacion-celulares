@@ -88,6 +88,10 @@ pub struct DeviceInfo {
 ///
 /// Renames explícitos por el mismo motivo que en `MeasurementMode`:
 /// `rename_all = "snake_case"` produciría `unit_u_t`.
+///
+/// `SCPI` es un acrónimo y se escribe en mayúsculas por convención del
+/// estándar IEEE 488.2.
+#[allow(clippy::upper_case_acronyms)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
 pub enum DriverType {
     #[serde(rename = "unit_ut")]
@@ -207,10 +211,13 @@ impl DeviceManager {
     /// Se registran fábricas y no instancias porque `connect` mueve el driver
     /// fuera del pool. Con instancias, un segundo puerto del mismo modelo
     /// fallaría: el driver ya no estaría disponible.
-    pub fn register_driver(&mut self, driver_type: DriverType, factory: DriverFactory) {
-        // Se instancia una vez para leer su nombre. La instancia se descarta:
-        // `connect` crea la definitiva.
+    ///
+    /// El `DriverType` se toma de una instancia de prueba, así no hay que
+    /// repetirlo en el registro: si el driver dice un tipo distinto del
+    /// esperado, el error aparece al conectar y no en dos lugares distintos.
+    pub fn register_driver(&mut self, factory: DriverFactory) {
         let probe = factory();
+        let driver_type = probe.driver_type();
         log::info!("Driver registrado: {} ({})", probe.name(), driver_type.label());
 
         self.factories.retain(|(t, _)| *t != driver_type);
@@ -449,18 +456,9 @@ pub type DeviceManagerState = Arc<Mutex<DeviceManager>>;
 pub fn create_manager() -> DeviceManager {
     let mut manager = DeviceManager::new();
     
-    manager.register_driver(
-        DriverType::UnitUT,
-        Arc::new(|| Box::new(drivers::UnitUTDriver::new())),
-    );
-    manager.register_driver(
-        DriverType::Aneng,
-        Arc::new(|| Box::new(drivers::AnengDriver::new())),
-    );
-    manager.register_driver(
-        DriverType::SCPI,
-        Arc::new(|| Box::new(drivers::SCPIDriver::new())),
-    );
+    manager.register_driver(Arc::new(|| Box::new(drivers::UnitUTDriver::new())));
+    manager.register_driver(Arc::new(|| Box::new(drivers::AnengDriver::new())));
+    manager.register_driver(Arc::new(|| Box::new(drivers::SCPIDriver::new())));
     
     manager
 }
@@ -469,17 +467,7 @@ pub fn create_manager() -> DeviceManager {
 mod tests {
     use super::*;
 
-    fn info(vid: Option<u16>, pid: Option<u16>, mfg: &str, prod: &str) -> DeviceInfo {
-        DeviceInfo {
-            port: "COM3".into(),
-            vendor_id: vid,
-            product_id: pid,
-            manufacturer: (!mfg.is_empty()).then(|| mfg.to_string()),
-            product: (!prod.is_empty()).then(|| prod.to_string()),
-            serial_number: None,
-            driver_type: DriverType::Unknown,
-        }
-    }
+    
 
     #[test]
     fn detecta_uni_t_por_marca() {
@@ -526,5 +514,53 @@ mod tests {
     fn el_frontend_puede_parsear_un_modo_enviado() {
         let mode: MeasurementMode = serde_json::from_str("\"current_ac\"").unwrap();
         assert_eq!(mode, MeasurementMode::CurrentAC);
+    }
+
+    #[test]
+    fn un_tipo_de_driver_desconocido_igual_deserializa() {
+        // El frontend manda "unknown" cuando la autodetección no acierta.
+        let driver: DriverType = serde_json::from_str("\"unknown\"").unwrap();
+        assert_eq!(driver, DriverType::Unknown);
+    }
+
+    #[test]
+    fn un_modo_invalido_se_rechaza_en_vez_de_silenciarse() {
+        // Si el frontend mandara "voltagedc", tiene que fallar ruidosamente:
+        // un default silencioso mostraría lecturas con la unidad equivocada.
+        assert!(serde_json::from_str::<MeasurementMode>("\"voltagedc\"").is_err());
+    }
+
+    #[test]
+    fn todas_las_unidades_de_modo_estan_definidas() {
+        let modes = [
+            MeasurementMode::VoltageDC,
+            MeasurementMode::VoltageAC,
+            MeasurementMode::CurrentDC,
+            MeasurementMode::CurrentAC,
+            MeasurementMode::Resistance,
+            MeasurementMode::Continuity,
+            MeasurementMode::Diode,
+            MeasurementMode::Capacitance,
+            MeasurementMode::Frequency,
+            MeasurementMode::Temperature,
+            MeasurementMode::DutyCycle,
+        ];
+
+        for mode in modes {
+            assert!(!mode.unit().is_empty(), "{mode:?} quedó sin unidad");
+        }
+    }
+
+    #[test]
+    fn el_modo_desconocido_no_inventa_una_unidad() {
+        // Sin unidad es correcto para `Unknown`: inventar "V" haría que la UI
+        // mostrara una lectura sin contexto como si fuera una tensión.
+        assert_eq!(MeasurementMode::Unknown.unit(), "");
+    }
+
+    #[test]
+    fn la_unidad_de_tension_es_voltios() {
+        assert_eq!(MeasurementMode::VoltageDC.unit(), "V");
+        assert_eq!(MeasurementMode::VoltageAC.unit(), "V");
     }
 }

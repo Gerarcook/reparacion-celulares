@@ -118,7 +118,7 @@ impl MultimeterDriver for UnitUTDriver {
         
         link.start_continuous(
             FRAME_LEN_14,
-            boxed_parser(|frame| Self::parse_unidata(frame)),
+            boxed_parser(Self::parse_unidata),
             task_tx,
         );
         
@@ -144,7 +144,7 @@ impl MultimeterDriver for UnitUTDriver {
     
     async fn read_single(&mut self) -> Result<Measurement, String> {
         let link = self.link.as_mut().ok_or("No conectado")?;
-        let parser = boxed_parser(|frame| Self::parse_unidata(frame));
+        let parser = boxed_parser(Self::parse_unidata);
         link.read_frame(FRAME_LEN_14, &parser).await
     }
     

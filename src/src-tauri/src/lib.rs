@@ -12,9 +12,10 @@ fn greet(name: &str) -> String {
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
-    // El manager vaenvuelto en `Arc` porque el bucle de eventos y los comandos
-    // comparten el mismo estado. Registrarlo como `Arc<Mutex<DeviceManager>>`
-    // es lo que permite que `State<'_, DeviceManagerState>` funcione en todos.
+    // El manager va envuelto en `Arc` porque el bucle de eventos, el listener de
+    // cierre y los comandos comparten el mismo estado. Registrarlo como
+    // `Arc<Mutex<DeviceManager>>` es lo que permite que
+    // `State<'_, DeviceManagerState>` funcione en todos los comandos.
     let manager_state: usb::DeviceManagerState = Arc::new(tokio::sync::Mutex::new(usb::create_manager()));
 
     tauri::Builder::default()
